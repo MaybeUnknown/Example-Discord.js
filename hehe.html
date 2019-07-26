@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<style>
+.tekst
+{
+    font-family: monospace;
+    color: white;
+    text-transform: uppercase;
+    font-size: 70px;
+    text-align: center;
+}
+</style>
+
+<body>
+    <section class="hero is-primary is-fullheight">
+        <!-- Hero head: will stick at the top -->
+        <div class="hero-head">
+            <header class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item">
+                            <img src="./logo.png" alt="Logo">
+                        </a>
+                        <span class="navbar-burger burger" data-target="navbarMenuHeroC">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div id="navbarMenuHeroC" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a class="navbar-item is-active">
+                                Dom
+                            </a>
+                            <a class="navbar-item" href="https://www.instagram.com/srubson_pl/">
+                                Mój profil na Instagramie
+                            </a>
+                            <!-- <a class="navbar-item">
+                    Documentation
+                  </a> -->
+                            <!-- <span class="navbar-item">
+                    <a class="button is-success is-inverted">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Download</span>
+                    </a>
+                  </span> -->
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <!-- <div class="columns">
+                    <div class="column">
+                        Kuba
+                    </div>
+                    <div class="column">
+                        Tu też
+                    </div>
+                </div> -->
+                <p class="tekst">Kuba R</p>
+                <a class="button is-large is-warning" id="g1" href="#albumy">Zobacz albumy</a>
+            </div>
+        </div>
+
+        <!-- Hero footer: will stick at the bottom -->
+        <!-- <div class="hero-foot">
+          <nav class="tabs is-boxed is-fullwidth">
+            <div class="container">
+              <ul>
+                <li class="is-active"><a>Overview</a></li>
+                <li><a>Modifiers</a></li>
+                <li><a>Grid</a></li>
+                <li><a>Elements</a></li>
+                <li><a>Components</a></li>
+                <li><a>Layout</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div> -->
+    </section>
+    <!-- <section class="hero is-medium is-light is-bold">
+        <br>
+         
+                <div class="container has-text-centered">
+              <div class="container">
+                <h1 class="title">
+                  O mnie
+                </h1>
+            </div>
+            <div class="columns">
+               <div class="column">
+                    <p style="font-size: 20px;">Cześć, jestem Kuba. Lubie robić zdjęcia, programować.</p>
+               </div>
+               <div class="column">
+                   f
+                </div>
+            </div>
+              
+            </div>
+          </section> -->
+    <section class="hero is-light is-bold is-medium">
+        <br>
+        <div class="container has-text-centered">
+            <h1 class="title" id="albumy">Albumy</h1>
+            <div class="columns">
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="	https://scontent-frx5-1.cdninstagram.com/vp/61632d59a5f223a4b6a16d2e0fc55e7a/5DC36854/t51.2885-15/e35/62167440_296296407944612_5914466783749310185_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                           
+
+                            <div class="content">
+                                Zdjęcia z zamku w Chęcinie i okolic.
+
+                                <br>
+                                <time datetime="2016-1-1">31 maja 2019</time>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item">Zobacz zdjęcia</a>
+
+                        </footer>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://scontent-frx5-1.cdninstagram.com/vp/b485d0d0d35da5de311571c2f0c15e80/5DC28022/t51.2885-15/e35/62439220_129293194944061_8437412283690500826_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            
+
+                            <div class="content">
+                                Zdjęcia z Nowosądeckiego parku etnograficznego
+
+                                <br>
+                                <time datetime="2016-1-1">ktorys</time>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item">Zobacz zdjęcia</a>
+
+                        </footer>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            
+
+                            <div class="content">
+                                Zdjęcia z Czernej
+
+                                <br>
+                                <time datetime="2016-1-1">ktorys</time>
+                            </div>
+
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item">Zobacz zdjęcia</a>
+
+                        </footer>
+                    </div>
+                </div>
+
+                
+
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://scontent-frx5-1.cdninstagram.com/vp/d48b7d82fb14b93233ae6365fa27117e/5DA7BC82/t51.2885-15/e35/58917167_367417360546046_2882390844728074686_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                         
+                            <div class="content">
+                                Zdjęcia z Warszawy
+
+                                <br>
+                                <time datetime="2016-1-1">ktorys 2018</time>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item">Zobacz zdjęcia</a>
+
+                        </footer>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://scontent-frx5-1.cdninstagram.com/vp/8efa7480288bb52637d318f1df6416b1/5DA3FB50/t51.2885-15/e35/59822751_352384162131892_43407946488819389_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                           
+
+                            <div class="content">
+                                Zdjęcia z ojcowa i okolic
+
+                                <br>
+                                <time datetime="2016-1-1">ktorys 2019</time>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item">Zobacz zdjęcia</a>
+
+                        </footer>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <!-- <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <img src="https://images-ext-1.discordapp.net/external/dJ6m4OVMMqZ9n4S5g-tq_B9Hj8Zm3OO1s4OTXEHP0xA/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/494017032283619329/ee447a3502d76328be125a750c6ec14f.png?width=676&height=676"
+                                            alt="Placeholder image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-4">Kuba R</p>
+                                </div>
+                            </div> -->
+
+                            <div class="content">
+                                ---
+
+                                <br>
+                                <time datetime="2016-1-1">31 maja 2019</time>
+                            </div>
+
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item">Zobacz zdjęcia</a>
+
+                        </footer>
+                    </div>
+                </div>
+        </div>
+        
+
+
+    </section>
+
+<script>
+$(document).ready(function(){
+ $('#g1').addClass("button is-warning is-loading")
+ setTimeout(function(){ 
+  $("#g1").removeClass("is-loading")   
+ }, 1000);
+});
+</script>
+</body>
+
+</html>
