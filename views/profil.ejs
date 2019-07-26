@@ -1,0 +1,70 @@
+<%- include("dash-bloki/header", {bot, user}) %>
+      <section id="dash">
+        <form id="panel" action="/profil/ustaw" method="POST">
+        <div class="container has-text-centered">
+            <% if(success === true) { %>
+                <article class="message is-success" id="success_modal">
+                    <div class="message-header">
+                        <p>Sukces!</p>
+                        <button class="delete" aria-label="delete" onclick="document.getElementById('success_modal').remove()"></button>
+                    </div>
+                        <div class="message-body">
+                        Ustawienia zostały ustawione w profilu!
+                    </div>
+                </article>
+            <% } %>
+
+            <!-- Bot -->
+            <div class="container" id="box_bot">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                            <form action="/profil/ustaw" method="POST">
+                                <div class="field">
+                                  <label class="label">Imie</label>
+                                  <div class="control">
+                                    <input class="input" type="text" name="imie" placeholder="Imie" value="<%= !db.fetch(user.id + "imie")||db.fetch(user.id + "imie")==="null" ? "" : db.fetch(user.id + "imie") %>">
+                                  </div>
+                                </div>
+                                <div class="field">
+                                   <label class="label">Spotify</label>
+                                   <div class="control">
+                                      <input class="input" type="text" name="spotify" placeholder="Profil na Spotify" value="<%= !db.fetch(user.id + "spotify")||db.fetch(user.id + "spotify")==="null" ? "" : db.fetch(user.id + "spotify") %>">
+                                  </div>
+                              </div>
+                              <div class="field">
+                                <label class="label">Instagram</label>
+                                <div class="control">
+                                  <input class="input" type="text" name="instagram" placeholder="Profil na instagramie" value="<%= !db.fetch(user.id + "instagram")||db.fetch(user.id + "instagram")==="null" ? "" : db.fetch(user.id + "instagram") %>">
+                              </div>
+                          </div>
+                          <div class="field">
+                            <label class="label">Zwierzak</label>
+                            <div class="control">
+                                <input class="input" type="text" name="pupil" placeholder="Twój pupil" value="<%= !db.fetch(user.id + "pupil")||db.fetch(user.id + "pupil")==="null" ? "" : db.fetch(user.id + "pupil") %>">
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label class="label">Kraj</label>
+                            <div class="control">
+                              <input class="input" type="text" name="nation" placeholder="Twoj kraj w którym mieszkasz" value="<%= !db.fetch(user.id + "nation")||db.fetch(user.id + "nation")==="null" ? "" : db.fetch(user.id + "nation") %>">
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label class="label">Opis</label>
+                            <div class="control">
+                                <textarea class="textarea" name="opis" placeholder="Opis" value="<%= !db.fetch(user.id + ".opis")||db.fetch(user.id + ".opis")==="null" ? "" : db.fetch(user.id + ".opis") %>"></textarea>
+                            </div>
+                          </div>
+                          <div class="field">
+                            <label class="label">Kolor</label>
+                            <div class="control">
+                                <input type="color" name="kolorProfil" value="<%= !db.fetch(user.id + ".kolorProfil")||db.fetch(user.id + ".kolorProfil")==="null" ? "#36393f" : db.fetch(user.id + ".kolorProfil") %>">
+                            </div>
+                          </div>
+                          <input type="submit" class="button is-success" value="Ustaw">
+                        </form>
+        </div>
+      </section>
+<%- include("dash-bloki/footer", {bot, user}) %>

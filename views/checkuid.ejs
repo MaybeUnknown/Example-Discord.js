@@ -1,0 +1,28 @@
+<%- include("dash-bloki/header", {bot, user}) %>
+      <section id="serwery">
+        <div class="container has-text-centered">
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-64x64">
+                            <img src="<%= u.displayAvatarURL %>>" alt="Avatar">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4"><%= u.username %></p>
+                          <p class="subtitle is-6">@<%= u.tag %></p>
+                        </div>
+                    </div>
+                  
+                    <div class="content">
+                        Ostatnia Wysłana wiadomość:<br>
+                        <%= u.lastMessage ? `${u.lastMessage.content.replace(/\n/g, "<br>")} (na kanale ${u.lastMessage.channel.name})` : "Niewiadomo" %>
+                        <br>
+                        Utworzono: <time><%= u.createdAt.toLocaleDateString("en-US") %></time>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+<%- include("dash-bloki/footer", {bot, user}) %>

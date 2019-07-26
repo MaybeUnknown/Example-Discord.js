@@ -1,0 +1,30 @@
+<%- include("dash-bloki/header", {bot, user}) %>
+      <section id="serwery">
+        <div class="container has-text-centered">
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-64x64">
+                            <img src="<%= s.iconURL %>" alt="Icon">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4"><%= s.name %></p>
+                          <p class="subtitle is-6"><%= s.memberCount %> członków</p>
+                        </div>
+                    </div>
+                  
+                    <div class="content">
+                        Właściciel: <%= s.owner.user.tag %><br>
+                        Region: <%= s.region %><br>
+                        Role:<br>
+                        <%- s.roles.map(r=>`<span style="color: ${r.hexColor};">${r.name}</span> (ID: ${r.id})`).join("<br>") %><br>
+                        <br>
+                        Utworzono: <time><%= s.createdAt.toLocaleDateString("en-US") %></time>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+<%- include("dash-bloki/footer", {bot, user}) %>

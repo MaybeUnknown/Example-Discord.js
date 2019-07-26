@@ -1,0 +1,549 @@
+<%- include("dash-bloki/header", {bot, user}) %>
+      <section id="dash">
+        <form id="panel" action="/dashboard/<%= guild.id %>/ustaw" method="POST">
+        <div class="container has-text-centered">
+            <% if(success === true) { %>
+                <article class="message is-success" id="success_modal">
+                    <div class="message-header">
+                        <p>Sukces!</p>
+                        <button class="delete" aria-label="delete" onclick="document.getElementById('success_modal').remove()"></button>
+                    </div>
+                        <div class="message-body">
+                        Ustawienia bota zostały pomyślnie zapisane.
+                    </div>
+                </article>
+            <% } %>
+            <ul class="pagination-list">
+                <li>
+                    <a class="pagination-link is-current txt" aria-label="Bot" aria-current="page" id="nav_bot" onclick="show(0)">Bot</a>
+                </li>
+                <li>
+                  <a class="pagination-link txt" aria-label="Automoderator" aria-current="page" id="nav_automod" onclick="show(1)">Automoderator</a>
+                </li>
+                <li>
+                    <a class="pagination-link txt" aria-label="Kanały" aria-current="" id="nav_logi" onclick="show(2)">Logi</a>
+                </li>
+                <li>
+                    <a class="pagination-link txt" aria-label="Powitania/Pożegnania" aria-current="" id="nav_powitania" onclick="show(3)">Powitania/Pożegnania</a>
+                </li>
+                <li>
+                    <a class="pagination-link txt" aria-label="Inne" aria-current="" id="nav_inne" onclick="show(4)">Inne</a>
+                </li>
+            </ul>
+
+            <!-- Bot -->
+            <div class="container" id="box_bot">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <div class="field">
+                                        <label class="label">Prefix</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="prefix" placeholder="Prefix" value="<%= db.fetch(guild.id + ".prefix") || "c!" %>">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                            <label class="label">Język</label>
+                                            <div class="control">
+                                                    <div class="select">
+                                                            <select name="jezyk">
+                                                                <% if(db.fetch(guild.id + ".language") === "pl" ) { %>
+                                                                    <option selected value="pl">Polski</option>
+                                                                    <option value="eng">Angielski</option>
+                                                                <% } else { %>
+                                                                    <option value="pl">Polski</option>
+                                                                    <option selected value="eng">Angielski</option>
+                                                                <% } %>
+                                                            </select>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Blokada zaproszeń</label>
+                                                <div class="control">
+                                                        <div class = "select">
+                                                                <select name="blokada">
+                                                                    <% if(db.fetch(guild.id + ".blokada") === "true") { %>
+                                                                        <option selected value="true">Włączona</option>
+                                                                        <option value="false">Wyłaczona</option>
+                                                                    <% } else { %>
+                                                                        <option value="true">Włączona</option>
+                                                                        <option selected value="false">Wyłaczona</option>
+                                                                    <% } %>
+                                                                </select>
+                                                            </div>
+                                                </div>
+                                            </div>
+<!--
+                                    Pozostałości po V2:
+
+                                    <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="inputGroupSelect01">Język</label>
+                                            </div>
+                                            <select class="custom-select" name="jezyk">
+                                              <% if(db.fetch(guild.id + ".language") === "pl" ) { %>
+                                              <option selected value="pl">Polski</option>
+                                              <option value="eng">Angielski</option>
+                                              <% } else { %>
+                                              <option value="pl">Polski</option>
+                                              <option selected value="eng">Angielski</option>
+                                              <% } %>
+                                            </select>
+                                          </div>
+                                          
+                                          <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                              <label class="input-group-text" for="inputGroupSelect01">Blokada zaproszeń</label>
+                                            </div>
+                                            <select class="custom-select" name="blokada">
+                                              <% if(db.fetch(guild.id + ".blokada") === "true") { %>
+                                              <option selected value="true">Włączona</option>
+                                              <option value="false">Wyłaczona</option>
+                                              <% } else { %>
+                                              <option value="true">Włączona</option>
+                                              <option selected value="false">Wyłaczona</option>
+                                              <% } %>
+                                            </select>
+                                          </div>
+                              
+                                          <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-default">Prefix</span>
+                                            </div>
+                                            <input type="text" name="prefix" class="form-control" value="<%= db.fetch(guild.id + ".prefix") || "c!" %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                          </div>
+                                        -->
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Automoderator -->
+            <div class="container" id="box_automod" style="display: none;">
+              <article class="media">
+                  <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <div class="control">
+                            <label class="label">Anty-caps (wyłączony na kanałach NSFW)</label>
+                            <label class="radio">
+                              <% if(db.fetch(guild.id + ".antycaps") && db.fetch(guild.id + ".antycaps") === "true") { %>
+                                <input type="radio" name="antycaps" value="true" checked>
+                              <% } else { %>
+                                <input type="radio" name="antycaps" value="true">
+                               <% } %>
+                              <p class="radio txt">Włączony</p>
+                            </label>
+                            <label class="radio">
+                              <% if(db.fetch(guild.id + ".antycaps") && db.fetch(guild.id + ".antycaps") === "false") { %>
+                                <input type="radio" name="antycaps" value="false" checked>
+                              <% } else { %>
+                                <input type="radio" name="antycaps" value="false">
+                              <% }  %>
+                              <p class="radio txt">Wyłączony</p>
+                            </label>
+                            <br><br>
+                            <label class="label">Przy ilu % dużych liter ma zadziałać anty-caps (domyślnie 70%)</label>
+                            <% if(db.fetch(guild.id + ".procentcaps") && db.fetch(guild.id + ".procentcaps") !== "null") { %>
+                              <input id="capsrange" class="slider has-output is-fullwidth" type="range" name="procentcaps" min="0" max="100" value="<%= db.fetch(guild.id + ".procentcaps") %>">
+                            <% } else { %>
+                              <input id="capsrange" class="slider has-output is-fullwidth" type="range" name="procentcaps" min="0" max="100" value="70">
+                            <% } %>
+                            <output id="capsout">50</output>
+                            <script>
+                              var slider = document.getElementById("capsrange");
+                              var output = document.getElementById("capsout");
+                              output.innerHTML = slider.value;
+
+                              slider.oninput = function() {
+                                output.innerHTML = this.value;
+                              } 
+                            </script>
+                            <label class="label">Anty-przekleństwa (zawsze wyłączone na kanałach NSFW)</label>
+                            <label class="radio">
+                              <% if(db.fetch(guild.id + ".antyprzeklenstwa") && db.fetch(guild.id + ".antyprzeklenstwa") === "true") { %>
+                                <input type="radio" name="antyprzeklenstwa" value="true" checked>
+                              <% } else { %>
+                                <input type="radio" name="antyprzeklenstwa" value="true">
+                               <% } %>
+                              <p class="radio txt">Włączone</p>
+                            </label>
+                            <label class="radio">
+                              <% if(db.fetch(guild.id + ".antyprzeklenstwa") && db.fetch(guild.id + ".antyprzeklenstwa") === "false") { %>
+                                <input type="radio" name="antyprzeklenstwa" value="false" checked>
+                              <% } else { %>
+                                <input type="radio" name="antyprzeklenstwa" value="false">
+                              <% }  %>
+                              <p class="radio txt">Wyłączone</p>
+                            </label>
+                            <%= db.fetch(guild.id + ".customprzeklenstwa") %><br>
+                            <label class="label">Dodatkowe przekleństwa do filtra (oddziel przecinkami):</label>
+                            <input class="input" type="text" name="cprzeklenstwa" placeholder="Przekleństwa" value="<%= db.fetch(guild.id+".customprzeklenstwa") && db.fetch(guild.id+".customprzeklenstwa") !== "null" ? db.fetch(guild.id + ".customprzeklenstwa") : "" %>">
+                            <br>
+                            <label class="label">Anty-invite:</label>
+                            <label class="radio">
+                                <% if(db.fetch(guild.id + ".antyinvite") && db.fetch(guild.id + ".antyinvite") === "true") { %>
+                                  <input type="radio" name="antyinvite" value="true" checked>
+                                <% } else { %>
+                                  <input type="radio" name="antyinvite" value="true">
+                                 <% } %>
+                                <p class="radio txt">Włączony</p>
+                              </label>
+                              <label class="radio">
+                                <% if(db.fetch(guild.id + ".antyinvite") && db.fetch(guild.id + ".antyinvite") === "false") { %>
+                                  <input type="radio" name="antyinvite" value="false" checked>
+                                <% } else { %>
+                                  <input type="radio" name="antyinvite" value="false">
+                                <% }  %>
+                              <p class="radio txt">Wyłączony</p>
+                            </label>
+                          </div>
+                        </p>
+                      </div>
+                  </div>
+              </article>
+            </div>
+
+            <!-- Kanały -->
+            <div class="container" id="box_logi" style="display: none;">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <div class="control">
+                                    <label class="label">Kanał do cleverbota</label>
+                                    <div class = "select">
+                                        <select name="cbot">
+                                            <% if(db.fetch(guild.id + "cbot") && db.fetch(guild.id + "cbot") !== "null" && bot.channels.get(db.fetch(guild.id + 'cbot'))) { %>
+                                                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                                                <option selected value="<%= db.fetch(guild.id + 'cbot') %>"><%= bot.channels.get(db.fetch(guild.id + 'cbot')).name; %></option>
+                                             <% }  %>
+                                             <% if(!db.fetch(guild.id + "cbot") || db.fetch(guild.id + "cbot") === "null") { %>
+                                                <option selected value="null" style="color:red"><b>Nie wybrano</b></option>                                            
+                                            <% } %>
+                                            <% 
+                                            var k = [];
+                                            bot.guilds.get(guild.id).channels.forEach(kanal => {
+                                                if(kanal.type !== "text") return;
+                                                if(kanal.name === db.fetch(guild.id + "cbot") || null) return;
+                                                k.push(kanal);
+                                            });%>
+                                            <% k.forEach(ka => {  
+                                             if(ka.permissionsFor(bot.user).has("SEND_MESSAGES")) { %>
+                                                <option value="<%= ka.id %>">
+                                                    <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                </option>
+                                            <% } else { %>
+                                                <option disabled>
+                                                    <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                </option>
+                                            <% }}); %>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="control">
+                                    <label class="label">Kanał do ping pong</label>
+                                    <div class = "select">
+                                        <select name="ping">
+                                            <% if(db.fetch(guild.id + "ping") && db.fetch(guild.id + "ping") !== "null" && bot.channels.get(db.fetch(guild.id + 'ping'))) { %>
+                                                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                                                <option selected value="<%= db.fetch(guild.id + 'ping') %>"><%= bot.channels.get(db.fetch(guild.id + 'ping')).name; %></option>
+                                             <% }  %>
+                                             <% if(!db.fetch(guild.id + "ping") || db.fetch(guild.id + "ping") === "null") { %>
+                                                <option selected value="null" style="color:red"><b>Nie wybrano</b></option>                                            
+                                            <% } %>
+                                            <% 
+                                            var k = [];
+                                            bot.guilds.get(guild.id).channels.forEach((kanal,indexx) => {
+                                                if(kanal.type !== "text") return;
+                                                if(kanal.name === db.fetch(guild.id + "ping") || null) return;
+                                                k.push(kanal);
+                                            });%>
+                                            <% k.forEach(ka => {  
+                                             if(ka.permissionsFor(bot.user).has("SEND_MESSAGES")  && ka.permissionsFor(bot.user).has("MANAGE_CHANNELS") && ka.permissionsFor(bot.user).has("MANAGE_MESSAGES")) { %>
+                                                <option value="<%= ka.id %>">
+                                                    <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                </option>
+                                            <% } else { %>
+                                                <option disabled>
+                                                    <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                </option>
+                                            <% }}); %>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    
+                                    <label class="radio">
+                                          <% if(db.fetch(guild.id + "liczTyp") && (db.fetch(guild.id + "liczTyp") === "kolejka" || db.fetch(guild.id + ".powTyp") === "null")) { %>
+                                            <input type="radio" name="liczTyp" value="kolejka" checked>
+                                          <% } else if(!db.fetch(guild.id + "liczTyp")) { %>
+                                            <input type="radio" name="liczTyp" value="kolejka" checked>
+                                          <% } else { %>
+                                            <input type="radio" name="liczTyp" value="message">
+                                          <% } %>
+                                            <p class="radio txt">Kolejka</p>
+                                          </label>
+                                        <label class="radio">
+                                            <% if(db.fetch(guild.id + "liczTyp") && db.fetch(guild.id + "liczTyp") === "bez") { %>
+                                              <input type="radio" name="liczTyp" value="bez" checked>
+                                            <% } else if(!db.fetch(guild.id + ".powTyp")) { %>
+                                              <input type="radio" name="powTyp" value="bez">
+                                            <% } %>
+                                            <p class="radio txt">Bez kolejki</p>
+                                        </label>
+                                      <br><br>
+                                    <div class="control">
+                                    <label class="label">Kanał do liczenia</label>
+                                    <div class = "select">
+                                        <select name="licz">
+                                            <% if(db.fetch(guild.id + "licz") && db.fetch(guild.id + "licz") !== "null" && bot.channels.get(db.fetch(guild.id + 'licz'))) { %>
+                                                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                                                <option selected value="<%= db.fetch(guild.id + 'licz') %>"><%= bot.channels.get(db.fetch(guild.id + 'licz')).name; %></option>
+                                             <% }  %>
+                                             <% if(!db.fetch(guild.id + "licz") || db.fetch(guild.id + "licz") === "null") { %>
+                                                <option selected value="null" style="color:red"><b>Nie wybrano</b></option>                                            
+                                            <% } %>
+                                            <% 
+                                            var k = [];
+                                            bot.guilds.get(guild.id).channels.forEach((kanal,indexx) => {
+                                                if(kanal.type !== "text") return;
+                                                if(kanal.name === db.fetch(guild.id + "licz") || null) return;
+                                                k.push(kanal);
+                                            });%>
+                                            <% k.forEach(ka => {  
+                                             if(ka.permissionsFor(bot.user).has("SEND_MESSAGES") && ka.permissionsFor(bot.user).has("MANAGE_CHANNELS") && ka.permissionsFor(bot.user).has("MANAGE_MESSAGES")) { %>
+                                                <option value="<%= ka.id %>">
+                                                    <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                </option>
+                                            <% } else { %>
+                                                <option disabled>
+                                                    <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                </option>
+                                            <% }}); %>
+                                        </select>
+                                      </div>
+                                    </div>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Powitania/Pożegnania -->
+            <div class="container" id="box_powitania" style="display: none;">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <div class="control">
+                                    <label class="label">Dostępne zmienne:<br>{user} - nazwa użytkownika<br>{tag} - tag<br>{server} - nazwa serwera</label>
+                                    <label class="label">Powitania</label>
+                                    <div class="select">
+                                        <select name="powKanal">
+                                          <% var powTemp = 0; %>
+                                            <% if(db.fetch(guild.id + ".powKanal") && db.fetch(guild.id + ".powKanal") !== "null" && bot.channels.get(db.fetch(guild.id + '.powKanal'))) { %>
+                                                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                                                <option selected value="<%= db.fetch(guild.id + '.powKanal') %>"><%= bot.channels.get(db.fetch(guild.id + '.powKanal')).parent ? bot.channels.get(db.fetch(guild.id + '.powKanal')).parent.name : "Bez kategorii" %>: <%= bot.channels.get(db.fetch(guild.id + '.powKanal')).name; %></option>
+                                                <% powTemp = bot.channels.get(db.fetch(guild.id + '.powKanal')).id %>
+                                             <% }  %>
+                                             <% if(!db.fetch(guild.id + ".powKanal") || db.fetch(guild.id + ".powKanal") === "null") { %>
+                                                <option selected value="null" style="color:red"><b>Nie wybrano</b></option>                                            
+                                            <% } %>
+                                            <% 
+                                            var k = [];
+                                            bot.guilds.get(guild.id).channels.forEach((kanal,indexx) => {
+                                                if(kanal.type !== "text") return;
+                                                if(kanal.name === db.fetch(guild.id + ".powKanal") || null) return;
+                                                k.push(kanal);
+                                            });%>
+                                            <% k.forEach(ka => {  
+                                              if(ka.id === powTemp) return;
+                                             if(ka.permissionsFor(bot.user).has("SEND_MESSAGES")) { %>
+                                                <option value="<%= ka.id %>">
+                                                    <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                </option>
+                                            <% } else { %>
+                                                <option disabled>
+                                                    <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                </option>
+                                            <% }}); %>
+                                        </select>
+                                      </div>
+                                      <br>
+                                      <% if(db.fetch(guild.id + ".powTekst") && db.fetch(guild.id + ".powTekst") !== "null") { %>
+                                        <textarea class="textarea" placeholder="Tekst do powitania" name="powTekst"><%= db.fetch(guild.id + ".powTekst") %></textarea>
+                                      <% } else { %>
+                                        <textarea class="textarea" placeholder="Tekst do powitania" name="powTekst">Witaj {user} na serwerze {server}! :)</textarea>
+                                      <% } %>
+                                      <label class="radio">
+                                          <% if(db.fetch(guild.id + ".powTyp") && (db.fetch(guild.id + ".powTyp") === "message" || db.fetch(guild.id + ".powTyp") === "null")) { %>
+                                            <input type="radio" name="powTyp" value="message" checked>
+                                          <% } else if(!db.fetch(guild.id + ".pozTyp")) { %>
+                                            <input type="radio" name="powTyp" value="message" checked>
+                                          <% } else { %>
+                                            <input type="radio" name="powTyp" value="message">
+                                          <% } %>
+                                            <p class="radio txt">Wiadomość</p>
+                                          </label>
+                                        <label class="radio">
+                                            <% if(db.fetch(guild.id + ".powTyp") && db.fetch(guild.id + ".powTyp") === "embed") { %>
+                                              <input type="radio" name="powTyp" value="embed" checked>
+                                            <% } else if(!db.fetch(guild.id + ".powTyp")) { %>
+                                              <input type="radio" name="powTyp" value="embed">
+                                            <% } %>
+                                            <p class="radio txt">Embed (z awatarem)</p>
+                                        </label>
+                                      <br><br>
+                                      <label class="label">Pożegnania</label>
+                                      <div class="select">
+                                          <select name="pozKanal">
+                                            <% var pozTemp = 0; %>
+                                              <% if(db.fetch(guild.id + ".pozKanal") && db.fetch(guild.id + ".pozKanal") !== "null" && bot.channels.get(db.fetch(guild.id + '.pozKanal'))) { %>
+                                                  <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                                                  <option selected value="<%= db.fetch(guild.id + '.pozKanal') %>"><%= bot.channels.get(db.fetch(guild.id + '.pozKanal')).parent ? bot.channels.get(db.fetch(guild.id + '.pozKanal')).parent.name : "Bez kategorii" %>: <%= bot.channels.get(db.fetch(guild.id + '.pozKanal')).name; %></option>
+                                                  <% pozTemp = bot.channels.get(db.fetch(guild.id + '.pozKanal')).id %>
+                                               <% }  %>
+                                               <% if(!db.fetch(guild.id + ".pozKanal") || db.fetch(guild.id + ".pozKanal") === "null") { %>
+                                                  <option selected value="null" style="color:red"><b>Nie wybrano</b></option>                                            
+                                              <% } %>
+                                              <% 
+                                              var k = [];
+                                              bot.guilds.get(guild.id).channels.forEach((kanal,indexx) => {
+                                                  if(kanal.type !== "text") return;
+                                                  if(kanal.name === db.fetch(guild.id + ".pozKanal") || null) return;
+                                                  k.push(kanal);
+                                              });%>
+                                              <% k.forEach(ka => {  
+                                                if(ka.id === pozTemp) return;
+                                               if(ka.permissionsFor(bot.user).has("SEND_MESSAGES")) { %>
+                                                  <option value="<%= ka.id %>">
+                                                      <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                  </option>
+                                              <% } else { %>
+                                                  <option disabled>
+                                                      <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                                  </option>
+                                              <% }}); %>
+                                          </select>
+                                        </div>
+                                        <br>
+                                        <% if(db.fetch(guild.id + ".pozTekst") && db.fetch(guild.id + ".pozTekst") !== "null") { %>
+                                          <textarea class="textarea" placeholder="Tekst do powitania" name="pozTekst"><%= db.fetch(guild.id + ".pozTekst") %></textarea>
+                                        <% } else { %>
+                                          <textarea class="textarea" placeholder="Tekst do powitania" name="pozTekst">Żegnaj {user}! :(</textarea>
+                                        <% } %>
+                                        <label class="radio">
+                                          <% if(db.fetch(guild.id + ".pozTyp") && (db.fetch(guild.id + ".pozTyp") === "message" || db.fetch(guild.id + ".pozTyp") === "null")) { %>
+                                            <input type="radio" name="pozTyp" value="message" checked>
+                                          <% } else if(!db.fetch(guild.id + ".pozTyp")) { %>
+                                            <input type="radio" name="pozTyp" value="message" checked>
+                                          <% } else { %>
+                                            <input type="radio" name="pozTyp" value="message">
+                                          <% } %>
+                                            <p class="radio txt">Wiadomość</p>
+                                          </label>
+                                        <label class="radio">
+                                            <% if(db.fetch(guild.id + ".pozTyp") && db.fetch(guild.id + ".pozTyp") === "embed") { %>
+                                              <input type="radio" name="pozTyp" value="embed" checked>
+                                            <% } else { %>
+                                              <input type="radio" name="pozTyp" value="embed">
+                                            <% } %>
+                                            <p class="radio txt">Embed (z awatarem)</p>
+                                        </label>
+                                  </div> 
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Inne -->
+            <div class="container" id="box_inne" style="display: none;">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <div class="control">
+                                <label class="label">Kanał z logami</label>
+                                <div class="select">
+                                    <select name="logMessage">
+                                      <% var logTemp = 0; %>
+                                        <% if(db.fetch(guild.id + ".logMessage") && db.fetch(guild.id + ".logMessage") !== "null" && bot.channels.get(db.fetch(guild.id + '.logMessage'))) { %>
+                                            <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                                            <option selected value="<%= db.fetch(guild.id + '.logMessage') %>"><%= bot.channels.get(db.fetch(guild.id + '.logMessage')).parent ? bot.channels.get(db.fetch(guild.id + '.logMessage')).parent.name : "Bez kategorii" %>: <%= bot.channels.get(db.fetch(guild.id + '.logMessage')).name; %></option>
+                                            <% logTemp = bot.channels.get(db.fetch(guild.id + '.logMessage')).id %>
+                                         <% }  %>
+                                         <% if(!db.fetch(guild.id + ".logMessage") || db.fetch(guild.id + ".logMessage") === "null") { %>
+                                            <option selected value="null" style="color:red"><b>Nie wybrano</b></option>                                            
+                                        <% } %>
+                                        <% 
+                                        var k = [];
+                                        bot.guilds.get(guild.id).channels.forEach((kanal,indexx) => {
+                                            if(kanal.type !== "text") return;
+                                            if(kanal.name === db.fetch(guild.id + ".logMessage") || null) return;
+                                            k.push(kanal);
+                                        });
+                                        %>
+                                        <% k.forEach(ka => {  
+                                         if(ka.id === logTemp) return;
+                                         if(ka.permissionsFor(bot.user).has("SEND_MESSAGES")) { %>
+                                            <option value="<%= ka.id %>">
+                                                <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                            </option>
+                                        <%  } else { %>
+                                            <option disabled>
+                                                <%= ka.parent ? ka.parent.name : "Bez kategorii" %>: <%= ka.name %>
+                                        </option>
+                                        <% }}); %>
+                                    </select>
+                                  </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <input type="submit" class="button is-success" value="Ustaw">
+
+            <script>
+                const kategorie = [
+                    "bot",
+                    "automod",
+                    "logi",
+                    "powitania",
+                    "inne"
+                ];
+
+                const navs = []
+                const divs = []
+                
+                kategorie.forEach((x,index) => {
+                    navs[index] = document.getElementById("nav_"+x);
+                    divs[index] = document.getElementById("box_"+x);
+                })
+                    
+                function clean() {
+                    navs.forEach((x,index) => {
+                        navs[index].setAttribute("aria-current", "")
+                        navs[index].classList.remove('is-current');
+                        divs[index].style.display = "none";
+                    })
+                }
+        
+                function show(dx) {
+                    clean();
+                    navs[dx].setAttribute("aria-current", "page");
+                    navs[dx].classList.add('is-current');
+                    divs[dx].style.display = "block";
+                }
+
+                bulmaTagsinput.attach();
+            </script>
+        </div>
+        </form>
+      </section>
+<%- include("dash-bloki/footer", {bot, user}) %>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard CBOTA</title>
+    <style>
+    @import url(https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css);
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-extensions@4.0.0/dist/css/bulma-extensions.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/bulma-tagsinput/dist/css/bulma-tagsinput.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/bulma-tagsinput/dist/js/bulma-tagsinput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/dist/js/bulma-extensions.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+      nav {
+        background-color: #2f3136 !important;
+      }
+      section, html, body {
+        background-color: #36393f !important;
+      }
+      .txt, h3, .label {
+        color: #ffffff !important;
+      }
+      .button-dark {
+        color: #ffffff !important;
+      }
+      .button-dark:hover, .button-dark:active {
+        color: #0a0a0a !important;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/dashboard">
+            <h3 class="title is-3">Communitybot</h3>
+          </a>
+      
+          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item button-dark" href="/">
+              Strona głowna
+            </a>
+            <a class="navbar-item button-dark" href="https://tiny.pl/tc8cb">
+                Dodaj bota
+            </a>
+            <a class="navbar-item button-dark" href="https://discord.gg/kESMjWt">
+                Serwer Support
+            </a>
+            <% if(bot.developers.includes(user.id)) { %>
+              <a class="navbar-item button-dark" href="/adminpanel">
+                Admin panel
+              </a>
+            <% } %>
+            <a class="navbar-item button-dark">
+              Dodaj propozycje
+            </a>
+          </div>
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-small is-danger" href="/logout">
+                  <strong>Wyloguj się</strong>
+                </a>
+                <figure class="image is-32x32">
+                        <a href="/profil"><img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32" alt="Avatar"></a>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <br>

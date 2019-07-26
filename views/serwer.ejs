@@ -1,0 +1,166 @@
+
+    <html>
+  
+        <!-- Odometr includes -->
+<link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-car.css" />
+<script src="http://github.hubspot.com/odometer/odometer.js"></script>
+
+<!-- Extra styles for this example -->
+<style>
+.odometer {
+    font-size: 300px;
+}
+</style>
+
+                <function></function>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <main class="container">
+    <h1 class="title">Community Bot</h1>
+   
+<!-- <div class="card-container">
+
+        <div class="card" style="width: 18rem;">
+                <img src="https://yt3.ggpht.com/a-/AAuE7mBlVCRJawuU4QYf21y-Fx-cc8c9HhExSiAPtQ=s288-mo-c-c0xffffffff-rj-k-no" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">T-Series</h5> -->
+                  <center><div id="odometer" class="odometer">0</div></center>
+                  
+  <!--             </div>
+              </div>
+</div> -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<footer><a href="https://www.youtube.com/watch?v=hXnAFYfV_e0">Poradnik</a></footer>
+</main>
+
+    
+       
+    
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+ <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+   
+        <script>
+        setInterval(function(){
+        $.ajax({
+
+        url : 'http://rkubapl.malopolska.pl/informacje&id=KubaComm',
+        dataType : 'json'
+    })
+    .done((res) => {
+        odometer.innerHTML = res.server;
+        })
+    
+
+             
+
+            
+    }, 6000);
+
+//   setTimeout(function(){
+//     odometer.innerHTML = 456;
+// }, 1000);
+    
+        //   $(function () {
+    
+            var socket = io();
+//             let xd = 0;
+//             setInterval(function(){
+// xd++;
+// odometer.innerHTML = xd;
+
+//             }, 100)
+    
+            socket.on("stats", function(stats) {
+                console.log(stats)
+                odometer.innerHTML = stats.pewdiepieStats.subscriberCount;
+                odometer.innerHTML = 6;
+
+            });
+    
+    
+    
+    
+           
+    
+            //    });
+    
+        </script>
+    
+</html>
+
+<script>
+import io from "socket.io-client"
+
+
+
+</script>
+<style>
+@import url("http://fonts.googleapis.com/css?family=Roboto");
+
+html, body {
+    font-family: "Roboto", sans-serif;
+    background: linear-gradient(to right, red, blue);
+
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10vh 0;
+}
+.card-container {
+    display: flex;
+}
+.number {
+    font-size: 40px;
+    margin-right: 5px;
+}
+.title {
+    font-weight: 100;
+    font-size: 50px;
+    color: white;
+    margin: 0;
+}
+.card-title {
+    margin: 0;
+    font-size: 40px;
+}
+.channel-img {
+    height: 120px;
+    width: 100px;
+    object-position: cover;
+}
+.card {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    height: 300px;
+    width: 300px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0,0,0,0.1);
+}
+.diff {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    color: purple;
+}
+</style>

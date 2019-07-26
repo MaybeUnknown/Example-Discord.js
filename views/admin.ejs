@@ -1,0 +1,79 @@
+<%- include("dash-bloki/header", {bot, user}) %>
+      <section id="serwery">
+        <div class="content has-text-centered">
+          <div class="container is-fluid">
+            <div class="tile is-ancestor">
+              <div class="tile is-vertical is-8">
+                <div class="tile">
+                  <div class="tile is-parent">
+                    <article class="tile is-child">
+                      <h3 class="title is-3">Logi:</h3><br>
+                      <textarea class="textarea" cols="100" readonly><%= logs  %></textarea><br>
+                      <a class="button is-link" onclick="location.reload()">Odśwież</a>
+                      <h3 class="title is-3">Panel programisty:</h3><br>
+                      <form action="/admin/checkuser" method="POST">
+                        <input class="input" type="text" placeholder="ID użytkownika" name="uid" style="width: 200px;">
+                        <input class="button is-link" type="submit" value="Sprawdź (user)" style="width: 150px;"><br>
+                      </form>
+                      <form action="/admin/checksrv" method="POST">
+                        <input class="input" type="text" placeholder="ID serwera" name="sid" style="width: 200px;">
+                        <input class="button is-link" type="submit" value="Sprawdź (server)" style="width: 150px;"><br>
+                      </form>
+                      <br>
+                      <a class="button is-link" onclick="update()" id="updatebutton">Update</a>
+                      <a class="button is-link" onclick="restart()" id="restartbutton">Restart</a><br><br>
+                      <textarea class="textarea" id="updateLog" cols="100" readonly></textarea>
+                    </article>
+                    <script>
+                      function update() {
+                        let out = document.getElementById("updateLog");
+                        let req = new XMLHttpRequest();
+                        req.onreadystatechange = function() {
+                          if (this.readyState == 4 && this.status == 200) {
+                            out.innerHTML += this.responseText + "\n";
+                          }
+                        };
+                        req.open("GET", "/update", true);
+                        req.send();
+                      }
+                      function restart() {
+                        let out = document.getElementById("updateLog");
+                        let req = new XMLHttpRequest();
+                        req.onreadystatechange = function() {
+                          if (this.readyState == 4 && this.status == 200) {
+                            out.innerHTML += "Restart!\n";
+                          }
+                        };
+                        req.open("GET", "/restart", true);
+                        req.send();
+                      }
+                    </script>
+                  </div>
+                </div>
+              </div>
+              <div class="tile is-parent">
+                <article class="tile is-child">
+                  <div class="content">
+                    <h3 class="title is-3">Serwery (kliknij na nazwę aby zarządzać nim):</h3>
+                    <% const top = bot.guilds.sort((a,b)=>a.memberCount-b.memberCount).array().reverse().slice(0,10); %>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Poz</th>
+                          <th>Nazwa</th>
+                          <th>Członków</th>
+                          <th>Botów</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%- top.map((t,i) => `<tr>\n<th>${i+1}</th>\n<td><a href="/dashboard/${t.id}">${t.name}</a></td>\n<td>${t.memberCount}</td>\n<td>${t.members.filter(m => m.user.bot).size}</td>\n</tr>`) %>
+                      </tbody>
+                    </table>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<%- include("dash-bloki/footer", {bot, user}) %>

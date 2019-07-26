@@ -1,0 +1,1116 @@
+<% include ./bloki/header %>
+<div id="snackbar">Osiagnales MAX tagow</div>
+
+
+<% const klucze = ["godzina", "users", "online", "data", "bany", "bots"]; 
+    const nazwa = ["Godzina", "Użytkownicy na serwerze", "Użytkownicy online", "Data", "Ilość banów", "Ilość botów"];
+
+%>
+
+
+<div class="container-fluid">
+
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+
+  </div>
+
+  <!-- Content Row -->
+
+  <!-- Content Row -->
+  <!-- Content Row -->
+
+
+
+  <form id="panel" action="/dashboard/<%= guild.id %>/ustaw" method="POST">
+              <div id="xd">
+              <div class="alert alert-danger" role="alert">
+  Dla widoku na telefonach polecamy wersje na komputer!
+</div>
+</div>
+    <div class="row">
+
+      <!-- Area Chart -->
+      <div class="col-xl-5 col-lg-10">
+        <div class="card shadow mb-5">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Ogólne</h6>
+
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <br>
+
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Język</label>
+              </div>
+              <select class="custom-select" name="jezyk">
+                <% if(db.fetch(guild.id + ".language") === "pl" ) { %>
+                <option selected value="pl">Polski</option>
+                <option value="eng">Angielski</option>
+                <% } else { %>
+                <option value="pl">Polski</option>
+                <option selected value="eng">Angielski</option>
+                <% } %>
+              </select>
+            </div>
+            
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Blokada zaproszeń</label>
+              </div>
+              <select class="custom-select" name="blokada">
+                <% if(db.fetch(guild.id + ".blokada") === "true") { %>
+                <option selected value="true">Włączona</option>
+                <option value="false">Wyłaczona</option>
+                <% } else { %>
+                <option value="true">Włączona</option>
+                <option selected value="false">Wyłaczona</option>
+                <% } %>
+              </select>
+            </div>
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Prefix</span>
+              </div>
+              <input type="text" name="prefix" class="form-control" value="<%= db.fetch(guild.id + ".prefix") || "c!"
+                %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+
+
+
+
+            <!-- <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div> -->
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xl-7 col-lg-10">
+        <div class="card shadow mb-5">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Kanały</h6>
+
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <br>
+
+
+
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Kanał do logów wiadomości</label>
+              </div>
+              <select class="custom-select" name="logMessage">
+                <% if(db.fetch(guild.id + ".logMessage") !== "null") { %>
+                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                <% } %>
+                <% if(db.fetch(guild.id + ".logMessage") !== "null") { %>
+                <option selected value="<%= db.fetch(guild.id + ".logMessage") || null %>">
+                  <%= db.fetch(guild.id + ".logMessage") || "Nie wybrano"%>
+                </option>
+                <% } %>
+                <% if(db.fetch(guild.id + ".logMessage") === "null") { %>
+                <option selected value="null" style="color:red">Nie wybrano</option>
+                <% } %>
+                <% client.guilds.get(guild.id).channels.forEach(kanal => {
+              if(kanal.type !== "text") return;
+              if(kanal.name === db.fetch(guild.id + ".logMessage") || null) return;
+     %>
+                <% if(kanal.permissionsFor(guild.client.user).has("SEND_MESSAGES")) { %>
+                <option value="<%= kanal.name %>">
+                  <%= kanal.name %>
+                </option>
+                <% } else { %>
+                <option disabled>
+                  <%= kanal.name %>
+                </option>
+                <% } %>
+                <% }) %>
+
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Kanał do mod-logów</label>
+              </div>
+              <select class="custom-select" name="modlog">
+                <% if(db.fetch(guild.id + ".mod-log") && db.fetch(guild.id + ".mod-log") !== "null") { %>
+                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                <% } %>
+                <% if(db.fetch(guild.id + ".mod-log") !== "null") { %>
+                <option selected value="<%= db.fetch(guild.id + ".mod-log") || null %>">
+                  <%= db.fetch(guild.id + ".mod-log") || "Nie wybrano"%>
+                </option>
+                <% } %>
+                <% if(db.fetch(guild.id + ".mod-log") === "null") { %>
+                <option selected value="null" style="color:red">Nie wybrano</option>
+                <% } %>
+                <% client.guilds.get(guild.id).channels.forEach(kanal => {
+              if(kanal.type !== "text") return;
+              if(kanal.name === db.fetch(guild.id + ".mod-log") || null) return;  %>
+                <% if(kanal.permissionsFor(guild.client.user).has("SEND_MESSAGES")) { %>
+                <option value="<%= kanal.name %>">
+                  <%= kanal.name %>
+                </option>
+                <% } else { %>
+                <option disabled>
+                  <%= kanal.name %>
+                </option>
+                <% } %>
+
+                <% }) %>
+
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Kanał do clever bota</label>
+              </div>
+              <select class="custom-select" name="cbot">
+                <% if(db.fetch(guild.id + "cbot") !== "null") { %>
+                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                <% } %>
+                <% if(db.fetch(guild.id + "cbot") !== "null") { %>
+                <option selected value="<%= db.fetch(guild.id + "cbot") || null %>">
+                  <%= db.fetch(guild.id + "cbot") || "Nie wybrano"%>
+                </option>
+                <% } %>
+                <% if(db.fetch(guild.id + "cbot") === "null") { %>
+                <option selected value="null" style="color:red">Nie wybrano</option>
+                <% } %>
+                <% client.guilds.get(guild.id).channels.forEach(kanal => {
+              if(kanal.type !== "text") return;
+              if(kanal.name === db.fetch(guild.id + "cbot") || null) return;
+     %>
+                <% if(kanal.permissionsFor(guild.client.user).has("SEND_MESSAGES")) { %>
+                <option value="<%= kanal.name %>">
+                  <%= kanal.name %>
+                </option>
+                <% } else { %>
+                <option disabled>
+                  <%= kanal.name %>
+                </option>
+                <% } %>
+                <% }) %>
+
+              </select>
+            </div>
+
+
+
+
+            <!-- <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div> -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="row">
+
+      <!-- Area Chart -->
+      <div class="col-xl-5 col-lg-10">
+        <div class="card shadow mb-5">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Powitanie</h6>
+
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <br>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Rola na początek</label>
+              </div>
+
+              <select class="custom-select" name="role">
+                <% if(db.fetch(guild.id + ".role") && db.fetch(guild.id + ".role") !== "null") { %>
+                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                <% } %>
+                <% if(db.fetch(guild.id + ".role") !== "null") { %>
+                <option selected value="<%= db.fetch(guild.id + " .role") || null %>">
+                  <%= db.fetch(guild.id + ".role") || "Nie wybrano"%>
+                </option>
+                <% } %>
+                <% if(db.fetch(guild.id + ".role") === "null") { %>
+                <option selected value="null" style="color:red">Nie wybrano</option>
+                <% } %>
+                <% client.guilds.get(guild.id).roles.forEach(rola => {
+              if((rola.name === db.fetch(guild.id + ".role") || null) || rola.name === "@everyone") return;
+               %>
+                <option value="<%= rola.name %>">
+                  <%= rola.name %>
+                </option>
+
+                <% }) %>
+
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Kanał do powitań</label>
+              </div>
+      
+              <select class="custom-select" name="powKanal">
+                <% if(db.fetch(guild.id + ".powKanal") && db.fetch(guild.id + ".powKanal") !== "null") { %>
+                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                <% } %>
+                <% if(db.fetch(guild.id + ".powKanal") !== "null") { %>
+                <option selected value="<%= db.fetch(guild.id + " .powKanal") || null %>">
+                  <%= db.fetch(guild.id + ".powKanal") || "Nie wybrano"%>
+                </option>
+                <% } %>
+                <% if(db.fetch(guild.id + ".powKanal") === "null") { %>
+                <option selected value="null" style="color:red">Nie wybrano</option>
+                <% } %>
+                <% client.guilds.get(guild.id).channels.forEach(kanal => {
+              if(kanal.type !== "text") return;
+              if(kanal.name === db.fetch(guild.id + ".powKanal") || null) return;
+               %>
+                <% if(kanal.permissionsFor(guild.client.user).has("SEND_MESSAGES")) { %>
+                <option value="<%= kanal.name %>">
+                  <%= kanal.name %>
+                </option>
+                <% } else { %>
+                <option disabled>
+                  <%= kanal.name %>
+                </option>
+                <% } %>
+                <% }) %>
+
+              </select>
+            </div>
+
+            <div class="row">
+              <div class="col-4">
+                <div class="list-group" id="list-tab" role="tablist">
+                  <a class="list-group-item list-group-item-action active" id="list-message-list" data-toggle="list" href="#list-message" role="tab" aria-controls="message">Wiadomość</a>
+                  <a class="list-group-item list-group-item-action" id="list-embed-list" data-toggle="list" href="#list-embed" role="tab" aria-controls="embed">Embed</a>
+                  <a class="list-group-item list-group-item-action" id="list-pw-list" data-toggle="list" href="#list-pw" role="tab" aria-controls="pw" disabled>Wysyłanie na PW</a>
+                </div>
+              </div>
+              <div class="col-8">
+                  <div class="tab-content" id="nav-tabContent">
+
+                  <div class="tab-pane fade show active" id="list-message" role="tabpanel" aria-labelledby="list-message-list">
+                   <center>
+                      Właczone: <input type="checkbox" id="message" onclick="messageF()" name="wiadon" value='true'>
+                </center>
+                <div id="messageDiv">
+                  
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tekst</span>
+                      </div>
+                      <input type="text" class="form-control" name="powTekst" value="<%= db.fetch(guild.id + ".powTekst") || "" %>" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-default">
+
+                    </div>
+                     <p class="text-monospace"><kbd>{user}</kbd> = użytkownik który dołaczył na serwer</p> 
+                  </div>
+                  </div>
+                  
+                  
+                  <div class="tab-pane fade" id="list-embed" role="tabpanel" aria-labelledby="list-embed-list">
+                      <center>
+                           Właczone: <input type="checkbox" id="embed" name="embon" value="true" onclick="embedF()">
+                      </center>
+                     <div id="embedDiv">
+                                <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Kolor</label>
+              </div>
+      
+              <select class="custom-select" name="kolor">
+                
+               <% if(db.fetch(guild.id + ".kolor") === "null") { %>
+                <option selected value="null" style="color:red">Nie wybrano</option>
+             <% } %>
+               <% if(!db.fetch(guild.id + ".kolor")) { %>
+                <option selected value="null" style="color:red">Nie wybrano</option>
+             <% } %>
+               <% if(db.fetch(guild.id + ".kolor") && db.fetch(guild.id + ".kolor") !== "null") { %>
+                <option value="null" style="color:red"><b>Nie wybrano</b></option>
+                <option selected value="<%= db.fetch(guild.id + ".kolor") %>"><%= db.fetch(guild.id + ".kolor") %></option>
+                <% } %>
+                
+                <% if(db.fetch(guild.id + ".kolor") && db.fetch(guild.id + ".kolor") !== "null") { %>
+                <%= db.fetch(guild.id + ".kolor") %>
+                <% } %>
+                <% if(db.fetch(guild.id + ".kolor") !== "Czerwony") { %>
+                <option  value="Czerwony">Czerwony</option>
+                <% } %>
+                 <% if(db.fetch(guild.id + ".kolor") !== "Cyan") { %>
+                <option  value="Cyan">Cyan</option>
+                <% } %>
+                 <% if(db.fetch(guild.id + ".kolor") !== "Jasny zielony") { %>
+                <option  value="Jasny zielony">Jasny zielony</option>
+                <% } %>
+                
+           
+           
+
+              </select>
+            </div>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tekst</span>
+                      </div>
+                      <input type="text" class="form-control" name="embTekst" value="<%= db.fetch(guild.id + ".embTekst") || "" %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                    </div>
+                  
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default">Nagłowek</span>
+                    </div>
+                    <input type="text" class="form-control" name="embNag" value="<%= db.fetch(guild.id + ".embNag") || "" %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                  </div>
+              
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Footer</span>
+                  </div>
+                  <input type="text" class="form-control" name="embFoot" value="<%= db.fetch(guild.id + ".embFoot") || "" %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+                </div>
+                <p class="text-monospace"><kbd>{user}</kbd> = użytkownik który dołaczył na serwer</p> 
+              </div>
+              </div>
+               <div class="tab-pane fade" id="list-pw" role="tabpanel" aria-labelledby="list-pw-list">
+                   <center>
+                        Właczone: <input type="checkbox" id="pw" name="pwon" value='true' onclick="pwF();">
+                   </center>
+                   <div id="pwDiv">
+                   
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tekst</span>
+                      </div>
+                      <textarea type="text" class="form-control" name="pwTekst" value="<%= db.fetch(guild.id + ".pwTekst") || "" %>" aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-default"><%= db.fetch(guild.id + ".pwTekst") || "" %></textarea>
+
+                    </div>
+                    <p class="text-monospace"><kbd>{user}</kbd> = użytkownik który dołaczył na serwer</p> 
+                  </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+
+         
+
+
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+      <!-- <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div> -->
+   </div>
+
+
+
+
+<div class="col-xl-5 col-lg-10">
+  <div class="card shadow mb-5">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Pożegnanie</h6>
+
+    </div>
+    <!-- Card Body -->
+    <div class="card-body">
+      <br>
+
+
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">Kanał do pożegnań</label>
+        </div>
+        <select class="custom-select" name="byeKanal">
+          <% if(db.fetch(guild.id + ".byeKanal") && db.fetch(guild.id + ".byeKanal") !== "null") { %>
+          <option value="null" style="color:red"><b>Nie wybrano</b></option>
+          <% } %>
+          <% if(db.fetch(guild.id + ".byeKanal") !== "null") { %>
+          <option selected value="<%= db.fetch(guild.id + ".byeKanal") || null %>">
+            <%= db.fetch(guild.id + ".byeKanal") || "Nie wybrano"%>
+          </option>
+          <% } %>
+          <% if(db.fetch(guild.id + ".byeKanal") === "null") { %>
+          <option selected value="null" style="color:red">Nie wybrano</option>
+          <% } %>
+          <% client.guilds.get(guild.id).channels.forEach(kanal => {
+              if(kanal.type !== "text") return;
+              if(kanal.name === db.fetch(guild.id + ".byeKanal") || null) return;
+               %>
+          <% if(kanal.permissionsFor(guild.client.user).has("SEND_MESSAGES")) { %>
+          <option value="<%= kanal.name %>">
+            <%= kanal.name %>
+          </option>
+          <% } else { %>
+          <option disabled>
+            <%= kanal.name %>
+          </option>
+          <% } %>
+          <% }) %>
+
+        </select>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-messageP-list" data-toggle="list" href="#list-messageP" role="tab" aria-controls="messageP">Wiadomość</a>
+            <a class="list-group-item list-group-item-action" id="list-embedP-list" data-toggle="list" href="#list-embedP" role="tab" aria-controls="embedP">Embed</a>
+            <!-- <a class="list-group-item list-group-item-action" id="list-embed-list" data-toggle="list" href="#list-embed" role="tab" aria-controls="embed" disabled>Embed</a>
+            <a class="list-group-item list-group-item-action" id="list-pw-list" data-toggle="list" href="#list-pw" role="tab" aria-controls="pw" disabled>Wysyłanie na PW</a> -->
+          </div>
+        </div>
+        <div class="col-8">
+            <div class="tab-content" id="nav-tabContent">
+
+            <div class="tab-pane fade show active" id="list-messageP" role="tabpanel" aria-labelledby="list-messageP-list">
+             <center>
+                Właczone: <input type="checkbox" id="messageP" onclick="messageFP()" name="wiadonP" value='true'>
+          </center>
+          <div id="messageDivP">
+           
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Tekst pożegnania</span>
+              </div>
+              <input type="text" name="byeTekst" id="byeTekst" class="form-control" value="<%= db.fetch(guild.id + ".byeTekst") || "" %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+      
+            </div>
+            </div>
+            </div>
+            
+           <div class="tab-pane fade" id="list-embedP" role="tabpanel" aria-labelledby="list-embedP-list">
+                <center>
+                     Właczone: <input type="checkbox" id="embedP" name="embonP" value="true" onclick="embedFP()">
+                </center>
+               <div id="embedDivP">
+                          <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">Kolor</label>
+        </div>
+
+        <select class="custom-select" name="kolorP">
+          
+         <% if(db.fetch(guild.id + ".kolor") === "null") { %>
+          <option selected value="null" style="color:red">Nie wybrano</option>
+       <% } %>
+         <% if(!db.fetch(guild.id + ".kolor")) { %>
+          <option selected value="null" style="color:red">Nie wybrano</option>
+       <% } %>
+         <% if(db.fetch(guild.id + ".kolor") && db.fetch(guild.id + ".kolor") !== "null") { %>
+          <option value="null" style="color:red"><b>Nie wybrano</b></option>
+          <option selected value="<%= db.fetch(guild.id + ".kolor") %>"><%= db.fetch(guild.id + ".kolor") %></option>
+          <% } %>
+          
+          <% if(db.fetch(guild.id + ".kolor") && db.fetch(guild.id + ".kolor") !== "null") { %>
+          <%= db.fetch(guild.id + ".kolor") %>
+          <% } %>
+          <% if(db.fetch(guild.id + ".kolor") !== "Czerwony") { %>
+          <option  value="Czerwony">Czerwony</option>
+          <% } %>
+           <% if(db.fetch(guild.id + ".kolor") !== "Cyan") { %>
+          <option  value="Cyan">Cyan</option>
+          <% } %>
+           <% if(db.fetch(guild.id + ".kolor") !== "Jasny zielony") { %>
+          <option  value="Jasny zielony">Jasny zielony</option>
+          <% } %>
+          
+     
+     
+
+        </select>
+      </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-default">Tekst</span>
+                </div>
+                <input type="text" class="form-control" name="embTekstP" value="<%= db.fetch(guild.id + ".embTekst") || "" %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+              </div>
+            
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Nagłowek</span>
+              </div>
+              <input type="text" class="form-control" name="embNagP" value="<%= db.fetch(guild.id + ".embNag") || "" %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+            </div>
+        
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">Footer</span>
+            </div>
+            <input type="text" class="form-control" name="embFootP" value="<%= db.fetch(guild.id + ".embFoot") || "" %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+
+          </div>
+        </div>
+        </div>
+         
+      </div>
+    </div>
+  </div>
+
+      
+
+
+
+
+      <!-- <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div> -->
+    </div>
+  </div>
+
+</div>
+
+ <div class="col-xl-5 col-lg-10">
+  <div class="card shadow mb-5">
+
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Statystyki na kanałach</h6>
+
+    </div>
+  
+    <div class="card-body">
+      <br>
+
+
+<% 
+let x = 0;
+klucze.forEach(klucz => { %>
+      <div class="input-group mb-3">
+         <%= db.fetch(guild.id + klucz) %>
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01"><%= nazwa[x] %></label>
+        </div>
+        <select class="custom-select" name="<%= klucz %>">
+          <% if(db.fetch(guild.id + klucz) !== "null") { %>
+          <option value="null" style="color:red"><b>Nie wybrano</b></option>
+          <% } %>
+          <% if(db.fetch(guild.id + klucz)) { %>
+          <option selected value="<%= db.fetch(guild.id + klucz) || null %>">
+            <%= "BETA"  || "Nie znaleziono kanału" %>
+          </option>
+          <% } %>
+          <% if(db.fetch(guild.id + klucz) === "null") { %>
+          <option selected value="null" style="color:red">Nie wybrano</option>
+          <% } %>
+          <% client.guilds.get(guild.id).channels.forEach(kanal => {
+              if(kanal.type !== "voice") return;
+              if(kanal.name === db.fetch(guild.id + klucz) || null) return;
+               %>
+          <% if(kanal.permissionsFor(guild.client.user).has("MANAGE_CHANNELS")) { %>
+          <option value="<%= kanal.id %>">
+            <%= kanal.name %>
+          </option>
+          <% } else { %>
+          <option disabled>
+            <%= kanal.name %>
+          </option>
+          <% } %>
+          <% }) %>
+
+        </select>
+      </div>
+      <% 
+      x++;
+      }) %>
+  
+
+      
+
+
+
+
+    </div>
+  </div>
+
+</div> 
+<div class="col-xl-7 col-lg-10">
+  <div class="card shadow mb-5">
+
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Tagi [NIE DZIALAJA]</h6>
+    </div>
+    <div class="card-body">
+      <br>
+      <table class="table table-hover" id="tabelka"> 
+        <thead>
+          <tr>
+            <th scope="col">Nazwa komendy</th>
+            <th scope="col">Edytuj</th>
+            <th scope="col">Usuwanie</th>
+          </tr>
+        </thead>
+       
+        <tbody>
+          <tr>
+            <td>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"><%= db.fetch(guild.id + ".prefix") || "c!" %></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Nazwa tagu" aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+              </td>
+            <td>
+                <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">Tekst</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Tekst tagu" aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+            </td>
+            <td><button type="button" class="btn btn-outline-danger" id="usunTag">Usuń</button></td>
+          </tr>
+          <tr>
+            <td> 
+              <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><%= db.fetch(guild.id + ".prefix") || "c!" %></span>
+              </div>
+              <input type="text" class="form-control" placeholder="Nazwa tagu" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+          </td>
+            <td> 
+              <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Tekst</span>
+              </div>
+              <input type="text" class="form-control" placeholder="Tekst tagu" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+          </td>
+            <td><button type="button" class="btn btn-outline-danger" id="usunTag">Usuń</button></td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <center>
+          <button type="button" class="btn btn-outline-success" onclick="dodaj()">Dodaj</button>
+      </center>
+      <br>
+      <br>
+  
+
+      
+
+
+
+
+    </div>
+  </div>
+
+</div> 
+
+          <!-- 
+          <div class="card-body">
+            <br>
+
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Język</label>
+              </div>
+              <select class="custom-select" name="jezyk">
+                <% if(db.fetch(guild.id + ".language") === "pl" ) { %>
+                <option selected value="pl">Polski</option>
+                <option value="eng">Angielski</option>
+                <% } else { %>
+                <option value="pl">Polski</option>
+                <option selected value="eng">Angielski</option>
+                <% } %>
+              </select>
+            </div>
+            
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Blokada zaproszeń</label>
+              </div>
+              <select class="custom-select" name="blokada">
+                <% if(db.fetch(guild.id + ".blokada") === "true") { %>
+                <option selected value="true">Włączona</option>
+                <option value="false">Wyłaczona</option>
+                <% } else { %>
+                <option value="true">Włączona</option>
+                <option selected value="false">Wyłaczona</option>
+                <% } %>
+              </select>
+            </div>
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Prefix</span>
+              </div>
+              <input type="text" name="prefix" class="form-control" value="<%= db.fetch(guild.id + ".prefix") || "c!"
+                %>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>  -->
+
+
+
+
+
+            <!-- <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<input type="button" class="btn btn-primary" onclick="zapis()" value="Ustaw">
+</form>
+
+</div>
+</div>
+
+</div>
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<!-- Footer -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Potrzebujesz pomocy?</h5>
+        </button>
+      </div>
+      <div class="modal-body">
+        Wbij na nasz serwer pomocy!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie, dziękuje</button>
+        <button onclick="popitup('https://discord.gg/kESMjWt'); $('#modal').modal('hide');" class="btn btn-primary">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="zapisywanie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Zapisywanie</h5>
+
+
+      </div>
+      <div class="modal-body">
+        <div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+</div>
+
+    <hr>
+      <p id="cie">Ciekawostka powinna byc tu ale cos sie zepsuło i jej tu nie ma:(</p>
+    
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Zarzadzaj tagiem</h5>
+        
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+   const alert = document.getElementById("errTag");
+  let tagi = 2;
+function dodaj() {
+  if(tagi === 5) {
+    var x = document.getElementById("snackbar");
+
+// Add the "show" class to DIV
+x.className = "show";
+
+// After 3 seconds, remove the show class from DIV
+return setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+  tagi++;
+$("#tabelka tbody").append("<tr>" +
+"<td>" +
+'<div class="input-group mb-3">' +
+'<div class="input-group-prepend">' +
+'<span class="input-group-text" id="basic-addon1"><%= db.fetch(guild.id + ".prefix") || "c!" %></span>' +
+"</div>" +
+'<input type="text" id="tek' + tagi + '" class="form-control" placeholder="Nazwa tagu" aria-label="Username" aria-describedby="basic-addon1">' +
+"</div>" +
+"</td>" +
+"<td>" +
+'<div class="input-group mb-3">' +
+'<div class="input-group-prepend">' +
+'<span class="input-group-text" id="basic-addon1">Tekst</span>' +
+"</div>" +
+'<input type="text" id="tek' + tagi + '" class="form-control" placeholder="Tekst tagu" aria-label="Username" aria-describedby="basic-addon1">' +
+"</div>" +
+"</td>" +
+'<td><button type="button" class="btn btn-outline-danger" id="usunTag">Usuń</button></td>' +
+          "</tr>");
+    
+}
+$('#tabelka').on('click', '#usunTag', function(){
+  $(this).parent().parent().remove();  
+  tagi--;
+ 
+});
+ function zapis(){
+   let zrobione = false;
+      const ciekawostki = [
+    "community Bot ma 2 głownych programistów i 1 programiste",
+    "woda jest mokra",
+    "niebo jest niebieskie",
+    "aktualna wersja community to V2",
+    "trawa jest zielona",
+    "zlikwidowano gimnazja",
+    "mamy partnerstwo ze StartIT",
+    "Warszawa jest stolicą polski",
+    "Andrzej Duda to jest obecny prezydent",
+    "w tym roku są wybory  europarlamentarne i parlamentarne",
+    "czekolada jest nie zdrowa",
+    "Mateusz Morawiecki to obecny premier",
+    "uzywamy plików cookies",
+    "mamy sewer wsparcia",
+    "jest aktualnie wiosna",
+    "w 1939 roku wybuchła 2 wojna światowa",
+    "w 1918 roku Polska odzyskała niepodległość",
+    "śrubson ma na imię Kuba",
+    "jest rok 2019"
+    ]
+    $('#cie').text("Czy wiesz że " + ciekawostki[Math.floor((Math.random() * ciekawostki.length) + 0)] + "?");
+   
+     $('#zapisywanie').modal({
+    backdrop: 'static',
+     keyboard: false
+ });
+
+ //$('#zapisywanie').modal('show')
+ //$.ajax({
+ //   url         : "http://rkubapl.malopolska.pl:8888/dashboard/<%= guild.id %>/ustaw", //wymagane, gdzie się łączymy
+ //   method      : "post", //typ połączenia, domyślnie get
+ //   dataType    : 'json',
+ //   contentType : 'application/json',
+ //   data        : { //dane do wysyłki
+ //       jezyk:  document.getElementById("jezyk").value
+ //   }
+//}).done(res => zrobione = true); 
+
+
+let zapisywanie = 0;
+setInterval(function(){ 
+const interval = zapisywanie += 1;
+$('.progress-bar').css('width', zapisywanie+'%').attr('aria-valuenow', zapisywanie);  
+if(zapisywanie === 100) {
+    clearInterval(interval);
+    $('#zapisywanie').modal('hide');
+    document.getElementById('panel').submit();
+    
+    
+}
+    
+}, 50);
+};
+  $(document).ready(function () {
+    document.getElementById("errTag").style.visibility = 'hidden';
+        $("#tost").toast('show');
+        
+    const szansa = Math.floor(Math.random() * 100 + 1);
+    if (szansa < 20) {
+      $('#modal').modal('show')
+    
+    } 
+  });
+</script>
+
+<script language="javascript" type="text/javascript">
+
+  function popitup(url) {
+    newwindow = window.open(url, 'name', 'height=500,width=500');
+    if (window.focus) { newwindow.focus() }
+    return false;
+  }
+
+
+</script>
+
+<script>
+var checkPw = document.getElementById("pw");
+var divPw = document.getElementById("pwDiv");
+if('<%= db.fetch(guild.id + ".pwon") || 'false' %>' === 'true') {
+checkPw.checked = true;
+} else {
+checkPw.checked = false;    
+}
+     if (checkPw.checked == true){
+    divPw.style.visibility='visible'
+  } else {
+     divPw.style.visibility='hidden'
+  }
+    
+function pwF() {
+     
+  
+  if (checkPw.checked == true){
+    divPw.style.visibility='visible'
+  } else {
+     divPw.style.visibility='hidden'
+  }
+}
+var checkEmb = document.getElementById("embed");
+var divEmb = document.getElementById("embedDiv");
+if('<%= db.fetch(guild.id + ".embon") || 'false' %>' === 'true') {
+checkEmb.checked = true;
+} else {
+checkEmb.checked = false;    
+}
+     if (checkEmb.checked == true){
+    divEmb.style.visibility='visible'
+  } else {
+     divEmb.style.visibility='hidden'
+  }
+    
+function embedF() {
+     
+  
+  if (checkEmb.checked == true){
+    divEmb.style.visibility='visible'
+  } else {
+     divEmb.style.visibility='hidden'
+  }
+}
+
+var checkMessage = document.getElementById("message");
+var divMessage = document.getElementById("messageDiv");
+
+if('<%= db.fetch(guild.id + ".wiadon") || 'false' %>' === 'true') {
+checkMessage.checked = true;
+} else {
+checkMessage.checked = false;    
+}
+
+     if (checkMessage.checked == true){
+    divMessage.style.visibility='visible'
+  } else {
+     divMessage.style.visibility='hidden'
+  }
+    
+function messageF() {
+     
+  
+  if (checkMessage.checked == true){
+    divMessage.style.visibility='visible'
+  } else {
+     divMessage.style.visibility='hidden'
+  }
+}
+//---------------
+var checkEmbP = document.getElementById("embedP");
+var divEmbP = document.getElementById("embedDivP");
+if('<%= db.fetch(guild.id + ".embon") || 'false' %>' === 'true') {
+checkEmbP.checked = true;
+} else {
+checkEmbP.checked = false;    
+}
+     if (checkEmbP.checked == true){
+    divEmbP.style.visibility='visible'
+  } else {
+     divEmbP.style.visibility='hidden'
+  }
+    
+function embedFP() {
+     
+  
+  if (checkEmbP.checked == true){
+    divEmbP.style.visibility='visible'
+  } else {
+     divEmbP.style.visibility='hidden'
+  }
+}
+
+var checkMessageP = document.getElementById("messageP");
+var divMessageP = document.getElementById("messageDivP");
+
+if('<%= db.fetch(guild.id + ".wiadon") || 'false' %>' === 'true') {
+checkMessageP.checked = true;
+} else {
+checkMessageP.checked = false;    
+}
+
+     if (checkMessageP.checked == true){
+    divMessageP.style.visibility='visible'
+  } else {
+     divMessageP.style.visibility='hidden'
+  }
+    
+function messageFP() {
+     
+  
+  if (checkMessageP.checked == true){
+    divMessageP.style.visibility='visible'
+  } else {
+     divMessageP.style.visibility='hidden'
+  }
+}
+function snack(text) {
+  // Get the snackbar DIV
+  var x = document.getElementById("snackbar");
+
+  // Add the "show" class to DIV
+  x.className = "show";
+
+  // After 3 seconds, remove the show class from DIV
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+</script>
+
+<% include ./bloki/footer %>

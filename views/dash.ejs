@@ -1,0 +1,34 @@
+<%- include("dash-bloki/header", {bot, user}) %>
+      <section id="serwery">
+          <div class="container has-text-centered">
+            <% 
+            user.guilds.forEach(guild => {
+            const permsOnGuild = new perms(guild.permissions);
+            
+                if(!permsOnGuild.has("MANAGE_GUILD")) return;
+                       %>
+        <article class="media">
+            <figure class="media-left">
+              <p class="image is-32x32">
+                <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.jpg">
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong class="txt"><%= guild.name %></strong>
+                </p>
+              </div>
+                <div class="level-left">
+                  <% if(bot.guilds.get(guild.id)) { %>
+                    <a class="button is-link" href="/dashboard/<%= guild.id %>">Zarządzaj serwerem</a>
+                  <% } else { %>
+                    <a class="button is-info" href="https://tiny.pl/tc8cb">Dodaj bota</a>
+                  <% } %>
+                </div>
+            </div>
+          </article>
+          <% }) %>
+        </div>
+      </section>
+<%- include("dash-bloki/footer", {bot, user}) %>

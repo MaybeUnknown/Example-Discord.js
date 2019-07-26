@@ -1,0 +1,177 @@
+<!-- Navigation -->
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137268878-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-137268878-3');
+    </script>
+    </head>
+    <style>
+    
+    
+    body {
+      background: url('https://lh3.googleusercontent.com/Pv4k_zAxaPOQ4DoC3idSikFmhR9Hleubg-9VOPE-TuCFNUCHeKu-aU9ZMGZSreGuZ4qfaOCA7BlUmVh7MrXSIG4ozK-al6yRTSkjqEhPKdBK5H6b7YeTYN9PO0MHqBc1AtGGuyAnoGAdZEjlDd6QxYbec2jacTnqAbdwDFjdeLwDroS9tUyxgMqDywtHBNxHR7OK7bsvqJsagNTScYvHisDpBkIatGGXycsAfgLaX_t1N4Iff3nfdJFLHlEENTtnPzm8w6D1_gmtrkWPW1tub_NJu8vVVXjsSed5C9vy1scO52BPwwMHLlQAfohu085ki_gPqDyDLRQTV31nHc9Yt4RQRB_7MH3Orho-phNS0O86htCoFIYpsblxjxmU3CtLfJPSgr5Ee7VzRnZVh0OIwCl9d--3fEhKCiPA2pKSiPwIbcyGhwjBOweA9JVB6H17n-vo97upxfjL6Q0vXvRRQxoXX6NCoKx-bM7H-TyBFkAaJMFnsBsyJz0pYRtEr7b6f_dpAK6FpaOipTZbCcBs2bkY01wUrDHDufeo_CEF31eAp0Thl-hDLw8QApN71F1AGN-qMUlVYVJG5tH148sITWzonqlHcaHkL6BnUn6Nr-kGrHmpR-kWmeGKPDNn64EUfEFw9Y7IMLnX550UBLYNwFxRtA2JX3w=w1250-h937-no') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+    }
+    
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
+      <div class="container">
+        <a class="navbar-brand" href="/"><%= bot.user.username %></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Strona głowna</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/support">Support</a>
+            </li>
+                 <% if(!user) { %> 
+            <li class="nav-item">
+              <a class="nav-link" href="/callback">Zaloguj się</a>
+            </li>
+            <% } else { %>
+             <li class="nav-item">
+              <a class="nav-link" href="/dashboard">Dashboard</a>
+                
+            </li>
+            <li class="nav-item active"> 
+              <a class="nav-link" href="/profil">Profil</a>
+              <span class="sr-only">(current)</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Wyloguj</a>
+            </li>
+            <% } %>
+            </ul>
+          
+        </div>
+      </div>
+    </nav>
+    
+    <!-- Page Content -->
+    <div class="container">
+        <div class="card border-0 shadow my-5">
+          <div class="card-body p-5">
+            <h1 class="font-weight-light">Rekrutacja do Supportu Community Bota.</h1>
+            <br>
+            <% if(bot.guilds.get("528909777183571979").members.get(user.id) && db.fetch(user.id + "rekru1") !== "tak") { %>
+  <form action="/wyslijrekru" method="POST">   
+       <p class="lead">Jak dobrze znasz Community Bota?</p>
+       <div class="input-group mb-3">
+        <div class="input-group-prepend">
+        </div>
+        <select class="custom-select" name="znanie">
+          <option selected value="none" disabled>Wybierz</option>
+          <option value="Bardzo zle">Bardzo zle</option>
+          <option value="Zle">Zle</option>
+          <option value="Srednio">Srednio</option>
+          <option value="Dobrze">Dobrze</option>
+          <option value="Bardzo Dobrze">Bardzo Dobrze</option>
+        </select>
+      </div>
+      <br>
+      <center>
+      <div class="alert alert-primary" role="alert">
+       Informacje o tobie
+      </div>
+      </center>
+      <br>
+      <p class="lead">Wpisz swoje imie</p>
+      <p class="lead" style="font-size: 15px;">Za napisanie np. RODO na 100% nie dostaniesz sie do supportu.</p>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <!-- <span class="input-group-text" id="inputGroup-sizing-default">Default</span> -->
+        </div>
+        <input type="text" name="imie" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+      </div>
+      <p class="lead">Napisz coś o sobie.</p>
+      <p class="lead" style="font-size: 15px;">Możesz napisać o swoim hobby, o sobie jakieś informacje itd.</p>
+      <div class="input-group">
+        <div class="input-group-prepend">
+        </div>
+        <textarea name="info" class="form-control" aria-label="With textarea"></textarea>
+      </div>
+      <br>
+      <center>
+      <div class="alert alert-primary" role="alert">
+       Czas
+      </div>
+      </center>
+      <br>
+      <p class="lead">Ile czasu możesz poświęcić na nasz serwer i na naszego bota dziennie od poniedziałku do piątku?</p>
+      <div class="input-group mb-3">
+       <div class="input-group-prepend">
+       </div>
+       <select class="custom-select" name="czasT">
+         <option selected value="none" disabled>Wybierz</option>
+         <option value="Ponizej 1h">Poniżej 1h.</option>
+         <option value="1h-2h">1h-2h</option>
+         <option value="2h-5h">2h-5h</option>
+         <option value="5h-10h">5h-10h</option>
+         <option value="Wiecej">Więcej (ale jesteś no-lifem na tym Discordzie)</option>
+       </select>
+     </div>
+     <p class="lead">Ile czasu możesz poświęcić na nasz serwer i na naszego bota dziennie w weekend?</p>
+      <div class="input-group mb-3">
+       <div class="input-group-prepend">
+       </div>
+       <select class="custom-select" name="czasW">
+         <option selected value="none" disabled>Wybierz</option>
+         <option value="Ponizej 1h">Poniżej 1h.</option>
+         <option value="1h-2h">1h-2h</option>
+         <option value="2h-5h">2h-5h</option>
+         <option value="5h-10h">5h-10h</option>
+         <option value="Wiecej">Więcej (ale jesteś no-lifem na tym Discordzie)</option>
+       </select>
+     </div>
+     <br>
+      <center>
+      <div class="alert alert-primary" role="alert">
+       Informacje
+      </div>
+      </center>
+      <br>
+      <p class="lead">1. Po złożeniu podania administracja zobaczy twoje podanie i je oceni.</p>
+      <p class="lead">2. Jesli twoje podanie bedzie ok i bedzie pasować administracji zostaniesz czasowym supportem na tydzień.</p>
+      <p class="lead">3. Po tygodniu od nadania czasowego supportu administracja zdecyduje czy zostaniesz supportem.</p>
+      <p class="lead">4. Jeśli administracja zdecyduje że nie zostaniesz supportem, możesz wtedy zostać testerem (twoja wola). Jeśli administracja zdecydowała że zsotaniesz, to wtedy zostajesz supportem.</p>
+
+    <button class="btn btn-primary" type="submit">Wyślij podanie</button>
+    </form>
+    <% } else { %>
+    <p>Albo już złożyłeś rekrutacje albo nie jesteś na serwerze <a href="https://discord.gg/Xjy66WP">Community Bota.</a></p>
+    <% } %>
+    <br>
+        <br>
+        <center>
+        <p class="lead">Created by <a href="https://startbootstrap.com/">StartBootstrap</a></p>
+        <p id="cookieMessage"></p>
+        </center>
+        <script>
+            let cookieMessage = document.getElementById("cookieMessage");
+            if(localStorage.getItem("cookieAccept") !== "true") {
+              let cookieHTML = `
+        <p id="ciasto">Ta strona uzywa <a href="http://wszystkoociasteczkach.pl/">Ciasteczek (kliknij po info)</a> <button type="button" class="btn btn-outline-success" onclick="cookieAccept();">Akceptuje</button>  <a href="http://google.com" class="btn btn-outline-danger">Nie akceptuje</a></p>
+              `;
+              cookieMessage.innerHTML = cookieHTML;
+            }
+            function cookieAccept() {
+              localStorage.setItem("cookieAccept", "true");
+              cookieMessage.innerHTML = "";
+            }
+          </script>
+          </div>
+        </div>
+      </div>

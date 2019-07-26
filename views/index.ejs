@@ -1,0 +1,216 @@
+    <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Community Bot</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:200,100,400" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/05cc1fea9b.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<style>
+    .tekst {
+        font-family: monospace;
+        color: rgb(0, 0, 0);
+        text-transform: uppercase;
+        font-size: 70px;
+        text-align: center;
+    }
+
+    .title, .txt, .subtitle {
+        color: #ffffff !important;
+    }
+
+    table {
+        border: none !important;
+    }
+
+    th, td {
+        color: #ffffff !important;
+        background-color: #222327 !important;
+        border: none !important;
+    }
+
+    .txt {
+        font-size: 2.5em;
+        padding: 1em;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
+    .hero {
+        background-color:#2f3136 !important;
+    }
+
+    .section, .footer {
+        background-color: #36393f !important;
+    }
+</style>
+
+<body>
+    <section class="hero is-primary is-fullheight">
+        <!-- Hero head: will stick at the top -->
+        <div class="hero-head">
+            <header class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="/">
+                            <h3 class="title is-3">Communitybot</h3>                     
+                        </a>
+                        <span class="navbar-burger burger" data-target="navbarMenuHeroC">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a class="navbar-item is-active">
+                                Strona głowna
+                            </a>
+                            <a class="navbar-item" href="https://discordapp.com/api/oauth2/authorize?client_id=540951867233009666&permissions=2146827767&scope=bot">
+                                Dodaj bota
+                            </a>
+                            <a class="navbar-item" href="https://discord.gg/PndVYx4">
+                                Serwer support
+                            </a>
+                            <% if(user) { %>
+                                <% if(bot.developers.includes(user.id)) { %>
+                                    <a class="navbar-item" href="/adminpanel">
+                                        Admin
+                                    </a>
+                                <% } %>
+                                <a class="navbar-item" href="/dashboard">
+                                    Dashboard
+                                </a>
+                                <a class="navbar-item" href="/logout">
+                                    Wyloguj
+                                </a>
+                                <a class="navbar-item" href="/profil">
+                                    <%= user.username %>
+                                </a>
+                            <% } else { %>
+                                <a class="navbar-item" href="/dashboard">
+                                    Zaloguj się
+                                </a>
+                            <% } %>
+                            <a href="https://bulma.io">
+                                <img src="https://bulma.io/images/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="txt">CommunityBot</h1>
+                <!-- <p class="tekst">Community BOT</p> -->
+                <a class="button is-large is-warning" id="g1" href="https://discordapp.com/api/oauth2/authorize?client_id=540951867233009666&permissions=2146827767&scope=bot">Dodaj
+                    na swój serwer</a>
+                <a class="button is-large is-success" id="g2" href="http://rkubapl.malopolska.pl:7777/dashboard">Dashboard
+                </a>
+            </div>
+        </div>
+
+    </section>
+    <section id="bot" class="section">
+        <div class="container has-text-centered"><br>
+            <h1 class="title">Community Bot</h1>
+            <div class="columns">
+                <div class="column">
+                    <p class="txt" style="font-size: 20px;">CommunityBot jest polskim botem (z funkcją języka
+                        angielskiego narazie). Posiada różne
+                        komendy, bp. Moderacyjne, Ekonomie, do zabawy.
+                    </p>
+                </div>
+                <div class="column">
+                    <div class="tabs is-toggle is-toggle-rounded">
+
+                        <image class="center" src="https://images-ext-2.discordapp.net/external/lw-p06gRJo51m9pv82uD1aKlalq0Sr5vjQzD-4D6qgE/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/540951867233009666/9813d922f6e43977750e686b4affb5c3.png"
+                            width="300" height="300"></image>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ogl" class="section">
+        <div class="container has-text-centered">
+            <%         let cmds = {};
+                        let categories = [];
+                        bot.commands.forEach((c) => {
+                           if(c.help.category) {
+                             const x = c.help.category.trim();
+                             if(!cmds[ c.help.category]) {
+                               cmds[c.help.category] = [];
+                               categories.push(c.help.category);
+                             }
+                             cmds[ c.help.category].push(c);
+                           } else {
+                             if(!cmds[`${string.other}`]) {
+                               cmds[`${string.other}`] = [];
+                               categories.push(`${string.other}`);
+                             } 
+                             cmds[`inne`].push(c);
+                           }
+                         }); %>
+                         
+                     <h1 class="title">Komendy bota</h1>
+                         <% categories.forEach((cat) => { %>
+                             <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                                 <h1 class="subtitle"><%= cat %></h1>
+                                 <thead>
+                                    <tr>
+                                      <th>Nazwa komendy</th>
+                                      <th>Opis</th>
+                                      <th>Aliasy</th>
+                                      <th>Uprawnienia</th>
+                                      <th>Timeout</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                 <% cmds[cat].forEach((c) => { %>
+                                    <tr>
+                                    <td><%= c.help.name %></td>
+                                    <td><%= c.help.description ? c.help.description : "Brak" %></td>
+                                    <td><%= c.help.aliases ? (c.help.aliases.length===0 ? "Brak" : c.help.aliases.join(", ")) : "Brak"   %></td>
+                                    <td><%= c.help.permLevel ? c.help.permLevel : "Brak" %></td>
+                                    <td><%= c.help.timeout ? c.help.timeout : "Brak" %> sekund</td>
+                                    </tr>
+                                 <% }); %>
+                                 </tbody>
+                             </table>
+                         <% }); %>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            <a href="https://bulma.io">
+                <img src="https://bulma.io/images/made-with-bulma.png" alt="Made with Bulma" width="256" height="48">
+            </a>
+          </p>
+        </div>
+      </footer>
+    <script>
+        $(document).ready(function () {
+            $('#g1').addClass("button is-warning is-loading")
+            $('#g2').addClass("button is-success is-loading")
+            setTimeout(function () {
+                $("#g1").removeClass("is-loading");
+                $("#g2").removeClass("is-loading");
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
